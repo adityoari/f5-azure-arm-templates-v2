@@ -156,7 +156,7 @@ Two options for deploying this solution include:
 
 The easiest way to deploy this Azure Arm templates is to use the deploy button below:<br>
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FF5Networks%2Ff5-azure-arm-templates-v2%2Fv1.3.1.0%2Fexamples%2Fquickstart%2Fazuredeploy.json)
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fadityoari%2Ff5-azure-arm-templates-v2%2Fmain%2Fexamples%2Fquickstart%2Fbaseazuredeploy.json)
 
 *Step 1: Custom Template Page* 
   - Select or Create New Resource Group
