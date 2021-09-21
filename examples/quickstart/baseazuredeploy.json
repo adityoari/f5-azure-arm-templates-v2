@@ -41,7 +41,7 @@
                 "description": "REQUIRED - Supply the public key that will be used for SSH authentication to the BIG-IP and application virtual machines."
             },
             "type": "string"
-        }
+        },
         "numNics": {
             "allowedValues": [
                 1,
