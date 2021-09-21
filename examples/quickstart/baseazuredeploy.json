@@ -55,19 +55,21 @@
             "type": "int"
         },
         "restrictedSrcAddressMgmt": {
+            "defaultValue": "*",
             "metadata": {
                 "description": "REQUIRED - When creating management security group, this field restricts management access to a specific network or address. Enter an IP address or address range in CIDR notation, or asterisk for all sources."
             },
             "type": "string"
         },
         "restrictedSrcAddressApp": {
+            "defaultValue": "*",
             "metadata": {
                 "description": "REQUIRED - When creating application security group, this field restricts application access to a specific network or address. Enter an IP address or address range in CIDR notation, or asterisk for all sources."
             },
             "type": "string"
         },
         "bigIpRuntimeInitConfig": {
-            "defaultValue": "https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates-v2/v1.3.1.0/examples/quickstart/bigip-configurations/runtime-init-conf-3nic-payg.yaml",
+            "defaultValue": "https://raw.githubusercontent.com/adityoari/f5-azure-arm-templates-v2/main/examples/quickstart/bigip-configurations/runtime-init-base-3nic-payg.yaml",
             "metadata": {
                 "description": "Supply a URL to the bigip-runtime-init configuration file in YAML or JSON format, or an escaped JSON string to use for f5-bigip-runtime-init configuration."
             },
