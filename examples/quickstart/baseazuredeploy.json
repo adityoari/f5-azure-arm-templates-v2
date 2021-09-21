@@ -3,14 +3,14 @@
     "contentVersion": "1.3.1.0",
     "parameters": {
         "templateBaseUrl": {
-            "defaultValue": "https://cdn.f5.com/product/cloudsolutions/",
+            "defaultValue": "https://raw.githubusercontent.com/adityoari/",
             "metadata": {
                 "description": "The publicly accessible URL where the linked ARM templates are located."
             },
             "type": "string"
         },
         "artifactLocation": {
-            "defaultValue": "[concat('f5-azure-arm-templates-v2/v', deployment().properties.template.contentVersion, '/examples/')]",
+            "defaultValue": "[concat('f5-azure-arm-templates-v2/', 'main', '/examples/')]",
             "metadata": {
                 "description": "The directory, relative to the templateBaseUrl, where the modules folder is located."
             },
@@ -41,14 +41,7 @@
                 "description": "REQUIRED - Supply the public key that will be used for SSH authentication to the BIG-IP and application virtual machines."
             },
             "type": "string"
-        },
-        "appContainerName": {
-            "defaultValue": "f5devcentral/f5-demo-app:latest",
-            "metadata": {
-                "description": "The docker container to use when deploying the example application."
-            },
-            "type": "string"
-        },
+        }
         "numNics": {
             "allowedValues": [
                 1,
@@ -96,10 +89,6 @@
         },
         "tagValues": {
             "defaultValue": {
-                "application": "APP",
-                "cost": "COST",
-                "environment": "ENV",
-                "group": "GROUP",
                 "owner": "OWNER"
             },
             "metadata": {
@@ -112,9 +101,9 @@
         "deploymentApiVersion": "2019-05-10",
         "contentVersion": "[deployment().properties.template.contentVersion]",
         "uniqueString": "[toLower(parameters('uniqueString'))]",
-        "adminUsername": "azureuser",
+        "adminUsername": "azuser",
 
-        "numSubnets": "[if(variables('provisionApp'), add(parameters('numNics'), 1), parameters('numNics'))]",
+        "numSubnets": "[parameters('numNics')]",
         "vnetName": "[concat(variables('uniqueString'), '-vnet')]",
         "vnetAddressPrefix": "10.0",
 
@@ -130,10 +119,7 @@
         "nsg1": "[if(greaterOrEquals(parameters('numNics'), 2), variables('nsg1RulesArray'), createArray())]",
         "nsg2": "[if(greaterOrEquals(parameters('numNics'), 3), variables('nsg2RulesArray'), createArray())]",
 
-        "provisionApp": "[not(empty(parameters('appContainerName')))]",
         "createAutoscaleGroup": false,
-        "appInstanceName": "[variables('uniqueString')]",
-        "appInstanceType": "Standard_D2s_v3",
         "cloudInitUrl": "",
 
         "mgmtSelfIp": "10.0.0.11",
@@ -266,11 +252,6 @@
             "type": "string",
             "value": "[if(equals(parameters('numNics'), 1), concat('https://', variables('mgmtSelfIp'), ':8443/'), concat('https://', variables('mgmtSelfIp'), ':443/'))]"
         },
-        "wafPublicIps": {
-            "condition": "[variables('provisionApp')]",
-            "type": "array",
-            "value": "[reference('dagTemplate').outputs.externalIps.value]"
-        },
         "vip1PrivateIp": {
             "type": "string",
             "value": "[variables('nic1ServiceIP1')]"
@@ -298,11 +279,6 @@
         "vip1PublicUrlHttps": {
             "type": "string",
             "value": "[concat('https://', reference('dagTemplate').outputs.externalIps.value[1], '/')]"
-        },
-        "appUsername": {
-            "condition": "[variables('provisionApp')]",
-            "type": "string",
-            "value": "[variables('adminUsername')]"
         }
     }
 }
