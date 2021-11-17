@@ -23,42 +23,36 @@
 	"resources": [
 		{
 			"apiVersion": "[variables('deploymentApiVersion')]",
-			"name": "functionTemplate",
+			"name": "bastionTemplate",
 			"properties": {
 				"mode": "Incremental",
 				"parameters": {
-					"vmssId": {
-						"value": "vmssId"
-					},
-					"bigIqAddress": {
-						"value": "Default"
-					},
-					"bigIqLicensePool": {
-						"value": "Default"
-					},
-					"bigIqPassword": {
-						"value": "Default"
-					},
-					"bigIqUsername": {
+					"adminUsername": {
 						"value": "azureuser"
 					},
-					"bigIqTenant": {
-						"value": "Default"
+					"sshKey": {
+						"value": ""
 					},
-					"bigIqUtilitySku": {
-						"value": "Default"
+					"createAutoscaleGroup": {
+						"value": true
 					},
-					"functionAppName": {
-						"value": "functionApp"
+					"instanceName": {
+						"value": "vm01"
 					},
-					"functionAppSku": {
-						"value": {
-							"Tier": "ElasticPremium",
-							"Name": "EP1"
-						}
+					"instanceType": {
+						"value": "Standard_D2s_v3"
 					},
-					"functionAppVnetId": {
-						"value": "Default"
+					"subnetId": {
+						"value": "bastion-subnet"
+					},
+                    "publicIpId": {
+						"value": ""
+					},
+					"nsgId": {
+						"value": ""
+					},
+					"cloudInitUrl": {
+						"value": ""
 					},
 					"tagValues": {
 						"value": {
@@ -72,32 +66,28 @@
 				},
 				"templateLink": {
 					"contentVersion": "1.4.0.0",
-					"uri": "[concat(parameters('templateBaseUrl'), parameters('artifactLocation'), 'modules/function/function.json')]"
+					"uri": "[concat(parameters('templateBaseUrl'), parameters('artifactLocation'), 'modules/bastion/bastion.json')]"
 				}
 			},
 			"type": "Microsoft.Resources/deployments"
 		}
 	],
 	"outputs": {
-		"storageAccount": {
+		"vmName": {
 			"type": "string",
-			"value": "[reference('functionTemplate').outputs.storageAccount.value]"
+			"value": "[reference('bastionTemplate').outputs.vmName.value]"
 		},
-		"hostingPlan": {
+		"resourceGroup": {
 			"type": "string",
-			"value": "[reference('functionTemplate').outputs.hostingPlan.value]"
+			"value": "[reference('bastionTemplate').outputs.resourceGroup.value]"
 		},
-		"functionApp": {
+		"vmssId": {
 			"type": "string",
-			"value": "[reference('functionTemplate').outputs.functionApp.value]"
+			"value": "[reference('bastionTemplate').outputs.vmssId.value]"
 		},
-		"keyVault": {
+		"vmssName": {
 			"type": "string",
-			"value": "[reference('functionTemplate').outputs.keyVault.value]"
-		},
-		"applicationInsights": {
-			"type": "string",
-			"value": "[reference('functionTemplate').outputs.applicationInsights.value]"
+			"value": "[reference('bastionTemplate').outputs.vmssName.value]"
 		}
 	}
 }

@@ -2,11 +2,8 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.4.0.0",
   "parameters": {
-    "createNatGateway": {
-      "value": false
-    },
-    "numSubnets": {
-      "value": 1
+    "sku": {
+      "value": "PerGB2018"
     },
     "tagValues": {
       "value": {
@@ -17,11 +14,14 @@
         "owner": "OWNER"
       }
     },
-    "vnetAddressPrefix": {
-      "value": "10.0"
+    "uniqueString": {
+      "value": ""
     },
-    "vnetName": {
-      "value": "virtualNetwork"
+    "workbookDisplayName": {
+      "value": "F5 BIG-IP WAF View"
+    },
+    "workspaceName": {
+      "value": "f5telemetry"
     }
   }
 }
