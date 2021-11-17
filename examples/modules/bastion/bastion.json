@@ -5,20 +5,20 @@
         "adminUsername":{
             "defaultValue":"azureuser",
             "metadata":{
-                "description":"Admin username applied to BIG-IP Virtual Machine."
+                "description":"Admin username applied to bastion Virtual Machine."
             },
             "type":"string"
         },
         "sshKey":{
             "metadata":{
-                "description":"REQUIRED - Supply the public key that will be used for SSH authentication to the BIG-IP and application virtual machines."
+                "description":"REQUIRED - Supply the public key that will be used for SSH authentication to the bastion virtual machines."
             },
             "type":"string"
         },
         "createAutoscaleGroup":{
             "defaultValue":true,
             "metadata":{
-                "description":"Choose true to create the application instances in an autoscaling configuration."
+                "description":"Choose true to create the bastion instances in an autoscaling configuration."
             },
             "type":"bool"
         },
@@ -52,12 +52,12 @@
             },
             "type":"string"
         },
-        "appContainerName":{
-            "defaultValue":"f5devcentral/f5-demo-app:latest",
-            "metadata":{
-                "description":"The docker container to use when deploying the example application."
+        "publicIpId": {
+            "defaultValue": "",
+            "metadata": {
+                "description": "The resource ID of the public IP address to apply to the management network interface. Leave this parameter blank when creating an autoscaled group of bastion hosts."
             },
-            "type":"string"
+            "type": "string"
         },
         "cloudInitUrl":{
             "defaultValue":"",
@@ -82,21 +82,21 @@
         "vmScaleSetMaxCount":{
             "defaultValue":10,
             "metadata":{
-                "description":"The maximum number of Application instances that can be deployed into the VM Scale Set."
+                "description":"The maximum number of bastion instances that can be deployed into the VM Scale Set."
             },
             "type":"int"
         },
         "vmScaleSetMinCount":{
             "defaultValue":1,
             "metadata":{
-                "description":"The minimum (and default) number of Application instances that will be deployed into the VM Scale Set."
+                "description":"The minimum (and default) number of bastion instances that will be deployed into the VM Scale Set."
             },
             "type":"int"
         }
     },
     "variables":{
         "cloudInit":"[concat('#include\n',parameters('cloudInitUrl'))]",
-        "commandToExecute":"[concat('sleep 60; apt-get update -y; apt-get -y install docker.io; docker run --name f5demo -p 80:80 -p 443:443 -d ', parameters('appContainerName'), '')]",
+        "commandToExecute":"echo \"***** Welcome to Bastion Host *****\" > /etc/motd",
         "imageReference":{
             "offer":"0001-com-ubuntu-server-focal",
             "publisher":"Canonical",
@@ -109,8 +109,8 @@
         },
         "storageAccountType":"Standard_LRS",
         "storageName":"[concat(uniqueString(resourceGroup().name, resourceGroup().id, deployment().name), 'data000')]",
-        "vmName":"[concat(parameters('instanceName'), '-app-vm')]",
-        "vmssName":"[concat(parameters('instanceName'), '-app-vmss')]"
+        "vmName":"[concat(parameters('instanceName'), '-bastion-vm')]",
+        "vmssName":"[concat(parameters('instanceName'), '-bastion-vmss')]"
     },
     "resources":[
         {
@@ -139,6 +139,9 @@
                         "name":"[concat(variables('vmName'), '-ipconfig1')]",
                         "properties":{
                             "privateIPAllocationMethod":"Dynamic",
+                            "publicIpAddress": {
+                                "id": "[parameters('publicIpId')]"
+                            },
                             "subnet":{
                                 "id":"[parameters('subnetId')]"
                             }
@@ -205,7 +208,7 @@
         },
         {
             "apiVersion":"2019-12-01",
-            "condition":"[and(not(empty(parameters('appContainerName'))), not(parameters('createAutoscaleGroup')))]",
+            "condition":"[not(parameters('createAutoscaleGroup'))]",
             "dependsOn":[
                 "[variables('vmName')]"
             ],
@@ -260,6 +263,12 @@
                                         {
                                             "name":"ipconfig1",
                                             "properties":{
+                                                "publicIpAddressConfiguration": {
+                                                    "name": "publicIp01",
+                                                    "properties": {
+                                                        "idleTimeoutInMinutes": 15
+                                                    }
+                                                },
                                                 "subnet":{
                                                     "id":"[parameters('subnetId')]"
                                                 }
@@ -378,11 +387,6 @@
         }
     ],
     "outputs":{
-        "appIp":{
-            "condition":"[not(parameters('createAutoscaleGroup'))]",
-            "type":"string",
-            "value":"[reference(resourceId('Microsoft.Network/networkInterfaces', variables('nicName')),'2020-06-01').ipConfigurations[0].properties.privateIPAddress]"
-        },
         "vmName":{
             "condition":"[not(parameters('createAutoscaleGroup'))]",
             "type":"string",
