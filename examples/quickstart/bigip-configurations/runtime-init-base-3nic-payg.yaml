@@ -1,3 +1,6 @@
+controls:
+  logLevel: info
+  logFilename: /var/log/cloud/bigIpRuntimeInit.log
 pre_onboard_enabled:
   - name: provision_rest
     type: inline
@@ -32,12 +35,31 @@ runtime_parameters:
       environment: azure
       field: ipv4
       index: 2
+  - name: DEFAULT_GW
+    type: metadata
+    metadataProvider:
+      environment: azure
+      type: network
+      field: ipv4
+      index: 1
+      ipcalc: first
+  - name: MGMT_GW
+    type: metadata
+    metadataProvider:
+      environment: azure
+      type: network
+      field: ipv4
+      index: 0
+      ipcalc: first
 bigip_ready_enabled: []
 extension_packages:
   install_operations:
     - extensionType: do
-      extensionVersion: 1.19.0
-      extensionHash: 15c1b919954a91b9ad1e469f49b7a0915b20de494b7a032da9eb258bbb7b6c49
+      extensionVersion: 1.28.0
+      extensionHash: fef1f81c259d1ead19c256a67b8dad492f2d70b1019ff520e16172a93e8c17c9
+    - extensionType: as3
+      extensionVersion: 3.36.1
+      extensionHash: 48876a92d3d8fe7da70310882dc9fd1499d209579d798394715e18c12138daf3
 extension_services:
   service_operations:
     - extensionType: do
@@ -77,7 +99,7 @@ extension_services:
             class: System
             autoPhonehome: true
             hostname: '{{{HOST_NAME}}}.local'
-          pspod:
+          azuser:
             class: User
             userType: regular
             partitionAccess:
@@ -87,19 +109,19 @@ extension_services:
             shell: bash
           default:
             class: ManagementRoute
-            gw: 10.0.0.1
+            gw: '{{{MGMT_GW}}}'
             network: default
           dhclient_route1:
             class: ManagementRoute
-            gw: 10.0.0.1
+            gw: '{{{MGMT_GW}}}'
             network: 168.63.129.16/32
           azureMetadata:
             class: ManagementRoute
-            gw: 10.0.0.1
+            gw: '{{{MGMT_GW}}}'
             network: 169.254.169.254/32
           defaultRoute:
             class: Route
-            gw: 10.0.1.1
+            gw: '{{{DEFAULT_GW}}}'
             network: default
           external:
             class: VLAN
@@ -127,4 +149,56 @@ extension_services:
             vlan: internal
             allowService: default
             trafficGroup: traffic-group-local-only
+    - extensionType: as3
+      type: inline
+      value:
+        class: ADC
+        schemaVersion: 3.0.0
+        label: Quickstart
+        remark: Quickstart
+        Tenant_1:
+          class: Tenant
+          Shared:
+            class: Application
+            template: shared
+            Shared_Pool:
+              class: Pool
+              remark: Service 1 shared pool
+              members:
+                - serverAddresses:
+                    - 10.0.3.4
+                  servicePort: 80
+              monitors:
+                - http
+            Custom_HTTP_Profile:
+              class: HTTP_Profile
+              xForwardedFor: true
+            Service_Address_01:
+              class: Service_Address
+              virtualAddress: 10.0.1.101
+          HTTP_Service:
+            class: Application
+            template: http
+            serviceMain:
+              class: Service_HTTP
+              virtualAddresses:
+                - use: /Tenant_1/Shared/Service_Address_01
+              snat: auto
+              profileHTTP:
+                use: /Tenant_1/Shared/Custom_HTTP_Profile
+              pool: /Tenant_1/Shared/Shared_Pool
+          HTTPS_Service:
+            class: Application
+            template: https
+            serviceMain:
+              class: Service_HTTPS
+              virtualAddresses:
+                - use: /Tenant_1/Shared/Service_Address_01
+              snat: auto
+              profileHTTP:
+                use: /Tenant_1/Shared/Custom_HTTP_Profile
+              pool: /Tenant_1/Shared/Shared_Pool
+              serverTLS:
+                bigip: /Common/clientssl
+              redirect80: false
 post_onboard_enabled: []

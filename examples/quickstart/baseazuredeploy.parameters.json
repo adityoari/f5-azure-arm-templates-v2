@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "2.3.0.0",
+  "parameters": {
+    "appContainerName": {
+      "value": "f5devcentral/f5-demo-app:latest"
+    },
+    "artifactLocation": {
+      "value": "f5-azure-arm-templates-v2/main/examples/"
+    },
+    "bigIpImage": {
+      "value": "f5-networks:f5-big-ip-best:f5-big-best-plus-hourly-25mbps:16.1.202000"
+    },
+    "bigIpInstanceType": {
+      "value": "Standard_D8s_v4"
+    },
+    "bigIpRuntimeInitConfig": {
+      "value": "https://raw.githubusercontent.com/adityoari/f5-azure-arm-templates-v2/main/examples/quickstart/bigip-configurations/runtime-init-base-3nic-payg.yaml"
+    },
+    "bigIpRuntimeInitPackageUrl": {
+      "value": "https://cdn.f5.com/product/cloudsolutions/f5-bigip-runtime-init/v1.5.0/dist/f5-bigip-runtime-init-1.5.0-1.gz.run"
+    },
+    "numNics": {
+      "value": 3
+    },
+    "provisionPublicIpMgmt": {
+      "value": true
+    },
+    "restrictedSrcAddressApp": {
+      "value": ""
+    },
+    "restrictedSrcAddressMgmt": {
+      "value": ""
+    },
+    "sshKey": {
+      "value": ""
+    },
+    "tagValues": {
+      "value": {
+        "owner": "OWNER"
+      }
+    },
+    "templateBaseUrl": {
+      "value": "https://raw.githubusercontent.com/adityoari/"
+    },
+    "uniqueString": {
+      "value": ""
+    },
+    "useAvailabilityZones": {
+      "value": false
+    }
+  }
+}
