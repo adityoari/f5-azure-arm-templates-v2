@@ -1,24 +1,12 @@
 {
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.4.0.0",
+  "contentVersion": "2.3.0.0",
   "parameters": {
-    "builtInRoleType": {
-      "value": "Reader"
-    },
-    "customRoleAssignableScopes": {
+    "customAssignableScopes": {
       "value": []
-    },
-    "customRoleDescription": {
-      "value": ""
-    },
-    "customRoleName": {
-      "value": ""
     },
     "customRolePermissions": {
       "value": []
-    },
-    "keyVaultName": {
-      "value": ""
     },
     "keyVaultPermissionsKeys": {
       "value": [
@@ -32,11 +20,17 @@
         "list"
       ]
     },
-    "secretName": {
+    "roleDescription": {
+      "value": "Role created by the Access template."
+    },
+    "roleName": {
       "value": ""
     },
-    "secretValue": {
+    "secretId": {
       "value": ""
+    },
+    "solutionType": {
+      "value": "standard"
     },
     "tagValues": {
       "value": {

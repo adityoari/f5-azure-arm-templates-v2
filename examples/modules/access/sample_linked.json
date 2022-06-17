@@ -1,6 +1,6 @@
 {
 	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-	"contentVersion": "1.4.0.0",
+	"contentVersion": "2.3.0.0",
 	"parameters": {
 		"templateBaseUrl": {
 			"defaultValue": "https://cdn.f5.com/product/cloudsolutions/",
@@ -29,19 +29,17 @@
 				"mode": "Incremental",
 				"templateLink": {
 					"uri": "[concat(parameters('templateBaseUrl'), parameters('artifactLocation'), 'modules/access/access.json')]",
-					"contentVersion": "1.4.0.0"
+					"contentVersion": "2.3.0.0"
 				},
 				"parameters": {
-					"builtInRoleType": { "value": "Reader" },
+					"solutionType": { "value": "standard" },
 					"customRolePermissions": { "value": [ "Microsoft.Resources/subscriptions/resourceGroups/read", "Microsoft.Resources/subscriptions/resourceGroups/list"]	},
-					"customRoleAssignableScopes": { "value": [ "[subscription().subscriptionId]"] },
-					"customRoleDescription": { "value": "this is a custom role defition for reader" },
-					"customRoleName": {	"value": "custom-reader" },
-					"keyVaultName": { "value": "test-kv" },
+					"customAssignableScopes": { "value": [ "[subscription().subscriptionId]"] },
+					"roleDescription": { "value": "this is a custom role defition for reader" },
+					"roleName": {	"value": "custom-reader" },
 					"keyVaultPermissionsKeys": { "value": [ "get", "list" ]	},
 					"keyVaultPermissionsSecrets": { "value": [ "get", "list" ] },
-					"secretName": { "value": "linux-admin" },
-					"secretValue": { "value": "StrongPassword212+" },
+					"secretId": { "value": "https://mySecretVault.vault.azure.net/secrets/secretName" },
 					"userAssignedIdentityName": { "value": "" },
 					"tagValues": { "value": { "application": "APP", "cost": "COST", "environment": "ENV", "group": "GROUP", "owner": "OWNER" } }
 				}
@@ -49,15 +47,11 @@
 		}
 	],
 	"outputs": {
-		"builtInRoleType": {
+		"roleDefinitionId": {
 			"type": "string",
-			"value": "[reference('accessTemplate').outputs.builtInRoleType.value]"
+			"value": "[reference('accessTemplate').outputs.roleDefinitionId.value]"
 		},
-		"customRoleDefinitionId": {
-			"type": "string",
-			"value": "[reference('accessTemplate').outputs.customRoleDefinitionId.value]"
-		},
-		"userAssignedIdentityName": {
+		"userAssignedIdentityId": {
 			"type": "string",
 			"value": "[reference('accessTemplate').outputs.userAssignedIdentityName.value]"
 		},

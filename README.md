@@ -2,7 +2,6 @@
 
 [![Releases](https://img.shields.io/github/release/f5networks/f5-azure-arm-templates-v2.svg)](https://github.com/f5networks/f5-azure-arm-templates-v2/releases)
 [![Issues](https://img.shields.io/github/issues/f5networks/f5-azure-arm-templates-v2.svg)](https://github.com/f5networks/f5-azure-arm-templates-v2/issues)
-  
 
 ## F5 Azure ARM Templates 2.0
 
@@ -40,7 +39,7 @@ If you find an issue, we would love to hear about it.
 
 ### Copyright
 
-Copyright 2014-2021 F5 Networks Inc.
+Copyright 2014-2022 F5 Networks Inc.
 
 ### License
 
