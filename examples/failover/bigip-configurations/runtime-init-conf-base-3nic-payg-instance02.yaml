@@ -33,14 +33,14 @@ extension_services:
             tm.tcpudptxchecksum: Software-only
           My_Provisioning:
             class: Provision
-            asm: nominal
+            avr: nominal
             ltm: nominal
           My_Ntp:
             class: NTP
             servers:
-              - 0.pool.ntp.org
-              - 1.pool.ntp.org
-            timezone: UTC
+              - 0.au.pool.ntp.org
+              - 1.au.pool.ntp.org
+            timezone: Australia/Melbourne
           My_Dns:
             class: DNS
             nameServers:
@@ -108,11 +108,11 @@ extension_services:
           logLevel: silly
         externalStorage:
           scopingTags:
-            f5_cloud_failover_label: bigip_high_availability_solution
+            f5_cloud_failover_label: failoverv2_cfe_tag
         failoverAddresses:
           enabled: true
           scopingTags:
-            f5_cloud_failover_label: bigip_high_availability_solution
+            f5_cloud_failover_label: failoverv2_cfe_tag
           requireScopingTags: false
     - extensionType: as3
       type: inline
@@ -138,12 +138,6 @@ extension_services:
             Custom_HTTP_Profile:
               class: HTTP_Profile
               xForwardedFor: true
-            Custom_WAF_Policy:
-              class: WAF_Policy
-              url: >-
-                https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates-v2/v2.3.0.0/examples/failover/bigip-configurations/Rapid_Deployment_Policy_13_1.xml
-              enforcementMode: blocking
-              ignoreChanges: false
             Service_Address_01:
               class: Service_Address
               virtualAddress: 10.0.1.101
@@ -158,8 +152,6 @@ extension_services:
               pool: /Tenant_1/Shared/Shared_Pool
               profileHTTP:
                 use: /Tenant_1/Shared/Custom_HTTP_Profile
-              policyWAF:
-                use: /Tenant_1/Shared/Custom_WAF_Policy
           HTTPS_Service:
             class: Application
             template: https
@@ -171,8 +163,6 @@ extension_services:
               pool: /Tenant_1/Shared/Shared_Pool
               profileHTTP:
                 use: /Tenant_1/Shared/Custom_HTTP_Profile
-              policyWAF:
-                use: /Tenant_1/Shared/Custom_WAF_Policy
               serverTLS:
                 bigip: /Common/clientssl
               redirect80: false
@@ -195,14 +185,14 @@ extension_services:
             tm.tcpudptxchecksum: Software-only
           My_Provisioning:
             class: Provision
-            asm: nominal
+            avr: nominal
             ltm: nominal
           My_Ntp:
             class: NTP
             servers:
-              - 0.pool.ntp.org
-              - 1.pool.ntp.org
-            timezone: UTC
+              - 0.au.pool.ntp.org
+              - 1.au.pool.ntp.org
+            timezone: Australia/Melbourne
           My_Dns:
             class: DNS
             nameServers:
