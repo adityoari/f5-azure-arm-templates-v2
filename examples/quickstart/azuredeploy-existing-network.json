@@ -10,7 +10,7 @@
       "type": "string"
     },
     "allowUsageAnalytics": {
-      "defaultValue": true,
+      "defaultValue": false,
       "metadata": {
         "description": "This deployment can send anonymous statistics to F5 to help us determine how to improve our solutions. If you select **false** statistics are not sent."
       },
@@ -37,7 +37,7 @@
       "type": "string"
     },
     "bigIpImage": {
-      "defaultValue": "f5-networks:f5-big-ip-best:f5-big-best-plus-hourly-25mbps:17.1.100002",
+      "defaultValue": "f5-networks:f5-big-ip-best:f5-big-best-plus-hourly-25mbps-po-f5:17.5.105000",
       "metadata": {
         "description": "2 formats accepted. URN of the image to use in Azure marketplace or id of custom image. Example URN value: f5-networks:f5-big-ip-byol:f5-big-all-2slot-byol:17.1.100002. You can find the URNs of F5 marketplace images in the README for this template or by running the command: az vm image list --output yaml --publisher f5-networks --all. See https://clouddocs.f5.com/cloud/public/v1/azure/Azure_download.html for information on creating custom BIG-IP image."
       },
@@ -117,7 +117,7 @@
       "type": "string"
     },
     "provisionPublicIpMgmt": {
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
         "description": "Select true if you would like to provision a public IP address for accessing the BIG-IP instance(s)."
       },
@@ -164,7 +164,7 @@
       "type": "string"
     },
     "useAvailabilityZones": {
-      "defaultValue": false,
+      "defaultValue": true,
       "metadata": {
         "description": "This deployment can deploy resources into Azure Availability Zones (if the region supports it).  If that is not desired the input should be set false. If the region does not support availability zones the input should be set to false."
       },
@@ -193,10 +193,6 @@
     },
     "tagValues": {
       "defaultValue": {
-        "application": "f5demoapp",
-        "cost": "f5cost",
-        "environment": "f5env",
-        "group": "f5group",
         "owner": "f5owner"
       },
       "metadata": {
@@ -208,7 +204,7 @@
   "variables": {
     "contentVersion": "[deployment().properties.template.contentVersion]",
     "uniqueString": "[toLower(parameters('uniqueString'))]",
-    "adminUsername": "[string('azureuser')]",
+    "adminUsername": "[string('azuser')]",
     "createAccess": "[or(variables('createSecret'), variables('useSecret'))]",
     "solutionType": "standard",
     "createSecret": "[and(not(empty(parameters('bigIpPasswordSecretValue'))), empty(parameters('bigIpPasswordSecretId')), empty(parameters('bigIpUserAssignManagedIdentity')))]",
