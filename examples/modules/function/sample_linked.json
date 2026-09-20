@@ -31,7 +31,7 @@
 						"value": "vmssId"
 					},
 					"bigIpRuntimeInitConfig": {
-						"value": "https://raw.githubusercontent.com/F5Networks/f5-azure-arm-templates-v2/v3.3.0.0/examples/autoscale/bigip-configurations/runtime-init-conf-bigiq.yaml"
+						"value": "https://raw.githubusercontent.com/adityoari/f5-azure-arm-templates-v2/refs/heads/main/examples/autoscale/bigip-configurations/runtime-init-conf-bigiq-with-app.yaml"
 					},
 					"functionAppName": {
 						"value": "functionApp"
