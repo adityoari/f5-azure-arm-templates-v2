@@ -422,7 +422,7 @@
   },
   "resources": [
     {
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2026-04-01",
       "condition": "[not(empty(parameters('cfeStorageAccountName')))]",
       "kind": "StorageV2",
       "location": "[resourceGroup().location]",
@@ -432,13 +432,13 @@
         "supportsHttpsTrafficOnly": true
       },
       "sku": {
-        "name": "Standard_LRS"
+        "name": "StandardV2_LRS"
       },
       "tags": "[variables('cfeTagValue')]",
       "type": "Microsoft.Storage/storageAccounts"
     },
     {
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2026-04-01",
       "kind": "StorageV2",
       "location": "[resourceGroup().location]",
       "name": "[variables('diagnosticsStorageAccountName')]",
@@ -447,7 +447,7 @@
         "supportsHttpsTrafficOnly": true
       },
       "sku": {
-        "name": "Standard_LRS"
+        "name": "StandardV2_LRS"
       },
       "tags": "[if(empty(parameters('tagValues')), json('null'), parameters('tagValues'))]",
       "type": "Microsoft.Storage/storageAccounts"

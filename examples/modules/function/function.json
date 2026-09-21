@@ -87,12 +87,12 @@
 	},
 	"resources": [
 		{
-			"apiVersion": "2021-04-01",
+			"apiVersion": "2026-04-01",
 			"kind": "StorageV2",
 			"location": "[variables('location')]",
 			"name": "[variables('functionStorageAccountName')]",
 			"sku": {
-				"name": "Standard_LRS"
+				"name": "StandardV2_LRS"
 			},
 			"tags":"[if(empty(parameters('tagValues')), json('null'), parameters('tagValues'))]",
 			"type": "Microsoft.Storage/storageAccounts"

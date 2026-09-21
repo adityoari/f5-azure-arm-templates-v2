@@ -104,7 +104,7 @@
         "networkSecurityGroup":{
             "id":"[parameters('nsgId')]"
         },
-        "storageAccountType":"Standard_LRS",
+        "storageAccountType":"StandardV2_LRS",
         "storageName":"[concat(uniqueString(resourceGroup().name, resourceGroup().id, deployment().name), 'stapp')]",
         "vmName":"[concat(parameters('instanceName'), '-app-vm-01')]",
         "vmssName":"[concat(parameters('instanceName'), '-app-vmss')]"
