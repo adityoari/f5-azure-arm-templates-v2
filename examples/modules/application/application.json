@@ -119,8 +119,7 @@
                 "allowBlobPublicAccess": false,
                 "supportsHttpsTrafficOnly": true            },
             "sku":{
-                "name":"[variables('storageAccountType')]",
-                "tier":"Standard"
+                "name":"[variables('storageAccountType')]"
             },
             "tags":"[if(empty(parameters('tagValues')), json('null'), parameters('tagValues'))]",
             "type":"Microsoft.Storage/storageAccounts"
