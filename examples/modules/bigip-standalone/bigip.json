@@ -432,7 +432,7 @@
         "supportsHttpsTrafficOnly": true
       },
       "sku": {
-        "name": "StandardV2_LRS"
+        "name": "Standard_LRS"
       },
       "tags": "[variables('cfeTagValue')]",
       "type": "Microsoft.Storage/storageAccounts"
@@ -447,7 +447,7 @@
         "supportsHttpsTrafficOnly": true
       },
       "sku": {
-        "name": "StandardV2_LRS"
+        "name": "Standard_LRS"
       },
       "tags": "[if(empty(parameters('tagValues')), json('null'), parameters('tagValues'))]",
       "type": "Microsoft.Storage/storageAccounts"
