@@ -3,7 +3,7 @@
   "contentVersion": "3.3.0.0",
   "parameters": {
     "templateBaseUrl": {
-      "defaultValue": "https://github.com/adityoari/",
+      "defaultValue": "https://raw.githubusercontent.com/adityoari/",
       "metadata": {
         "description": "The publicly accessible URL where the linked ARM templates are located."
       },
@@ -17,7 +17,7 @@
       "type": "bool"
     },
     "artifactLocation": {
-      "defaultValue": "[concat('f5-azure-arm-templates-v2/v', deployment().properties.template.contentVersion, '/examples/')]",
+      "defaultValue": "[concat('f5-azure-arm-templates-v2/', 'refs/heads/main/examples/')]",
       "metadata": {
         "description": "The directory, relative to the templateBaseUrl, where the modules folder is located."
       },
